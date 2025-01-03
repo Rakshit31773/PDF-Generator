@@ -1,0 +1,81 @@
+{% extends 'partials/base.html' %}
+
+
+{% block styling %}
+    #id_source{
+        width:350px;
+    }
+    #id_destination{
+        width:350px;
+    }
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row my-4">
+    <div class="col-md-5" style="margin-left:20px;" >
+        <div class="bg-info text-white p-3 mb-3 ">
+            <h5>Letter information</h5>
+            <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form_info }}
+                    <input class="btn btn-success btn-block" type="submit" value="Save">
+                </form>
+        </div>
+    
+    </div>
+</div>
+
+<div class="row my-4">
+    <div class="col-md-3" style="margin-left:20px;">
+        {% for message in messages %}
+        {% if message %}
+        <div class="alert alert-{{message.tags}}">
+            {{message}}
+        </div>
+        {% endif %}
+        {% endfor %} 
+        <div class="bg-info text-white p-3 mb-3 ">
+            <h5>Add New Items</h5>
+            <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input class="btn btn-success btn-block" type="submit" value="Add">
+                </form>
+        </div>
+        <a href="{% url 'generate-pdf' id 'attachment' %}" class=" active alert alert-info" > Generate PDF </a>
+        <a href="{% url 'generate-pdf' id 'inline' %}" style="margin-left:20px;" target="_blank" class=" active alert alert-info" > Preview PDF </a>
+    </div>
+    <div class="col-md-7" style="margin-right:10px;">
+        <table class="table bg-white">
+            <thead class="bg-info text-white">
+                <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Activity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                {% if item.table_id == id %}
+                <tr>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm mr-2"
+                            href="{% url 'update-items' id item.id %}">Edit</a>
+                        <a class="btn btn-danger btn-sm ml-2"
+                            href="{% url 'delete-items' id item.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+{% endblock %}

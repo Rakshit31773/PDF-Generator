@@ -1,0 +1,46 @@
+{% extends 'partials/base.html' %}
+
+
+{% block styling %}
+    #id_source{
+        width:350px;
+    }
+    #id_destination{
+        width:350px;
+    }
+{% endblock %}
+
+
+{% block content %}
+<div class="card" style="margin:20px;">
+    <div class="card-body">
+<form method="POST">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <div style="font-weight: bold;">
+            <p>To,</p>
+            <p>The Security In-charge</p>
+            <p>{{form.address}}</p>
+        </div>
+        <div style="font-weight: bold; text-decoration: underline; margin:30px;">
+            <p style="margin-left:30px;"> Sub: Request for {{form.returnable}} Gate Pass</p>
+        </div>
+        <div>
+            <p>This is to request you to allow the following from {{form.source}}</p>
+            <p>to {{form.destination}}</p>
+        </div>
+        <div>
+            <p>Signature of {{form.name}}</p>
+        </div>
+    </div>
+    <input style="margin-top:40px;" class="btn btn-info" type="submit" value="Proceed to add items">
+</form>
+</div>
+</div>
+<!-- 
+<div>
+    <button class="btn btn-info " style="margin:20px;" type="button">Button</button>
+    <button class="btn btn-info " type="button">Button</button>
+</div> -->
+{% endblock %}
